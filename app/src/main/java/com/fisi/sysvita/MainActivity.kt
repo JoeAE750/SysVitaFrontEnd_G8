@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.fisi.sysvita.ui.theme.SysVitaTheme
+import com.fisi.sysvita.network.SysVitaApi
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,8 +21,11 @@ class MainActivity : ComponentActivity() {
         setContent {
             SysVitaTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+
+
+                    val name = getUserEmail()
                     Greeting(
-                        name = "Android",
+                        name = name,
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -36,6 +40,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
         text = "Hello $name!",
         modifier = modifier
     )
+
 }
 
 @Preview(showBackground = true)
@@ -44,4 +49,9 @@ fun GreetingPreview() {
     SysVitaTheme {
         Greeting("Android")
     }
+}
+
+private fun getUserEmail(): String {
+    val listResult = SysVitaApi.retrofitService.getEmail("Joel.aguilar1@unmsm.edu.pe")
+    return listResult
 }
