@@ -16,5 +16,4 @@ object SysVitaApi {
     val retrofitService: SysVitaApiService by lazy {
         retrofit.create(SysVitaApiService::class.java)
     }
-
 }

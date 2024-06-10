@@ -1,13 +1,14 @@
 package com.fisi.sysvita.ui.view
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -15,73 +16,75 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fisi.sysvita.R
 import com.fisi.sysvita.ui.theme.SysVitaTheme
 
-class HomeScreen {
-
-}
-
-
-@Preview
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PreviewLayout() {
-    SysVitaTheme(darkTheme = false) {
-        HomeScreenLayout()
-    }
+fun HomeScreenAppBar(
+
+) {
+
+    TopAppBar(
+        title = {
+            Text("Universidad Nacional Mayor de San Marcos", fontSize = 16.sp)
+        },
+        colors = topAppBarColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            titleContentColor = MaterialTheme.colorScheme.primary,
+        ),
+        /*
+        navigationIcon = {
+            if (canNavigateBack) {
+                IconButton(onClick = navigateUp) {
+                    Icon(
+                        imageVector = Icons.Filled.ArrowBack,
+                        contentDescription = "Retroceder"
+                    )
+                }
+            }
+        }*/
+    )
 }
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreenLayout() {
-    var presses by remember { mutableIntStateOf(0) }
+fun HomeScreen() {
+    Scaffold(topBar = {
+        HomeScreenAppBar()
+        val imagePainter = painterResource(id = R.drawable.unmsm_escudo)
+        Icon(
+            painter = imagePainter,
+            contentDescription = "Escudo UNMSM",
+            modifier = Modifier.offset(x = 340.dp, y = 6.dp)
+        )
+    }, bottomBar = {
+        BottomAppBar(
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            contentColor = MaterialTheme.colorScheme.primary,
+        ) {
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                colors = topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.primary,
-                ),
-                title = {
-                    Text("Universidad Nacional Mayor de San Marcos", fontSize = 16.sp)
-                }
-
-            )
-            val imagePainter = painterResource(id = R.drawable.unmsm_escudo)
-            Icon(
-                painter = imagePainter,
-                contentDescription = "Escudo UNMSM",
-                modifier = Modifier.offset(x = 340.dp, y = 6.dp)
-            )
-        },
-        bottomBar = {
-            BottomAppBar(
-                containerColor = MaterialTheme.colorScheme.primaryContainer,
-                contentColor = MaterialTheme.colorScheme.primary,
-            ) {
-
-            }
-        },
-
-        ) { innerPadding ->
+        }
+    }) { innerPadding ->
         Column(
             modifier = Modifier
-                .padding(innerPadding),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
+                .padding(innerPadding)
+                .padding(start = 95.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
-                modifier = Modifier.padding(8.dp),
-                text = "SysVita"
+                modifier = Modifier.padding(top = 36.dp, bottom = 36.dp),
+                text = "SysVita",
+                fontSize = 40.sp,
+                fontWeight = FontWeight.Bold
             )
 
             val imagePainter = painterResource(id = R.drawable.sysvita_launcher_foreground)
@@ -91,17 +94,32 @@ fun HomeScreenLayout() {
                 modifier = Modifier.size(100.dp)
             )
 
-            Button(onClick = { onClick() }) {
-                Text("Filled")
+            Button(
+                onClick = { },
+                modifier = Modifier
+                    .padding(top = 50.dp, bottom = 30.dp)
+                    .size(width = 200.dp, height = 40.dp)
+            ) {
+                Text("Usuario", fontSize = 17.sp)
             }
 
 
-            FilledTonalButton(onClick = { onClick() }) {
-                Text("Tonal")
+            FilledTonalButton(
+                onClick = { }, modifier = Modifier.size(width = 200.dp, height = 40.dp)
+            ) {
+                Text("Especialista", fontSize = 17.sp)
             }
 
 
         }
     }
 
+}
+
+@Preview
+@Composable
+fun PreviewLayout() {
+    SysVitaTheme(darkTheme = false) {
+        HomeScreen()
+    }
 }

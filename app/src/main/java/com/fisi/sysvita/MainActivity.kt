@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import com.fisi.sysvita.navigation.SysVitaApp
 import com.fisi.sysvita.ui.theme.SysVitaTheme
 
 class MainActivity : ComponentActivity() {
@@ -13,17 +14,19 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            SysVitaTheme {
+                SysVitaApp()
+            }
 
         }
     }
 }
 
-
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     SysVitaTheme {
-
+        SysVitaApp()
     }
 }
 

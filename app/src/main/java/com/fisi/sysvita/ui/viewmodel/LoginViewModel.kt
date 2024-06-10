@@ -10,4 +10,14 @@ class LoginViewModel : ViewModel() {
     // Login UI state
     private val _uiState = MutableStateFlow(LoginUiState())
     val uiState: StateFlow<LoginUiState> = _uiState.asStateFlow()
+
+    private var email: String = ""
+    private lateinit var password: String
+
+
+    private fun clearLogin() {
+        _uiState.value = LoginUiState(email = "", password = "")
+    }
+
+
 }
