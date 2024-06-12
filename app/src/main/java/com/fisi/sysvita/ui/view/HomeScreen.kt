@@ -2,14 +2,12 @@ package com.fisi.sysvita.ui.view
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalButton
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -28,9 +26,7 @@ import com.fisi.sysvita.ui.theme.SysVitaTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreenAppBar(
-
-) {
+fun HomeScreenAppBar() {
 
     TopAppBar(
         title = {
@@ -55,21 +51,16 @@ fun HomeScreenAppBar(
 }
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen() {
+fun HomeScreen(onLoginClick: () -> Unit) {
+    //var esEspecialista = false
     Scaffold(topBar = {
         HomeScreenAppBar()
-        val imagePainter = painterResource(id = R.drawable.unmsm_escudo)
-        Icon(
-            painter = imagePainter,
-            contentDescription = "Escudo UNMSM",
-            modifier = Modifier.offset(x = 340.dp, y = 6.dp)
-        )
     }, bottomBar = {
         BottomAppBar(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
             contentColor = MaterialTheme.colorScheme.primary,
+            modifier = Modifier.size(height = 35.dp, width = 200.dp)
         ) {
 
         }
@@ -95,7 +86,7 @@ fun HomeScreen() {
             )
 
             Button(
-                onClick = { },
+                onClick = onLoginClick,
                 modifier = Modifier
                     .padding(top = 50.dp, bottom = 30.dp)
                     .size(width = 200.dp, height = 40.dp)
@@ -105,7 +96,8 @@ fun HomeScreen() {
 
 
             FilledTonalButton(
-                onClick = { }, modifier = Modifier.size(width = 200.dp, height = 40.dp)
+                onClick = onLoginClick,
+                modifier = Modifier.size(width = 200.dp, height = 40.dp)
             ) {
                 Text("Especialista", fontSize = 17.sp)
             }
@@ -120,6 +112,6 @@ fun HomeScreen() {
 @Composable
 fun PreviewLayout() {
     SysVitaTheme(darkTheme = false) {
-        HomeScreen()
+        //HomeScreen()
     }
 }
