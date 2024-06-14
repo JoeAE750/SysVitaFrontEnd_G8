@@ -17,6 +17,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -42,7 +44,7 @@ fun LoginScreen(
     loginViewModel: LoginViewModel = viewModel(),
     loginUIConexion: ConexionUIState = ConexionUIState.Success
 ) {
-
+    val loginUiState by loginViewModel.uiState.collectAsState()
     Scaffold(topBar = {
         SysVitaTopBar(canNavigateBack = false, title = "Login")
     }, bottomBar = {
@@ -95,10 +97,20 @@ fun LoginScreen(
             }
 
             Button(onClick = {
-                loginViewModel.validarLogin()
+                loginViewModel.validarLogin(
+                    email = loginViewModel.email,
+                    contrasena = loginViewModel.contrasena
+                )
             }
             )
             { Text(text = "Iniciar Sesion", fontSize = 11.sp, fontWeight = FontWeight.Bold) }
+
+
+            Text(
+                text = loginUiState.isLoginSuccesfull.toString(),
+                fontSize = 11.sp,
+                fontWeight = FontWeight.Bold
+            )
         }
     }
 }
