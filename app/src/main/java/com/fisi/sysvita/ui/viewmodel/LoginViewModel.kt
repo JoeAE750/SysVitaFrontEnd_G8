@@ -29,9 +29,10 @@ class LoginViewModel : ViewModel() {
                 _uiState.update { currentState ->
                     currentState.copy(isLoginSuccesfull = true)
                 }
+                loginUIConexion = ConexionUIState.Success
             }
         } catch (e: IOException) {
-            ConexionUIState.Error
+            loginUIConexion = ConexionUIState.Error
         }
     }
 }

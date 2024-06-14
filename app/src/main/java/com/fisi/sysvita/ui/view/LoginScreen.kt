@@ -3,6 +3,7 @@ package com.fisi.sysvita.ui.view
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardActions
@@ -16,8 +17,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -29,6 +28,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.fisi.sysvita.R
+import com.fisi.sysvita.ui.components.ConexionUIState
+import com.fisi.sysvita.ui.components.ErrorScreen
+import com.fisi.sysvita.ui.components.LoadingScreen
 import com.fisi.sysvita.ui.components.SysVitaBottomBar
 import com.fisi.sysvita.ui.components.SysVitaTopBar
 import com.fisi.sysvita.ui.theme.SysVitaTheme
@@ -36,8 +38,10 @@ import com.fisi.sysvita.ui.viewmodel.LoginViewModel
 
 
 @Composable
-fun LoginScreen(loginViewModel: LoginViewModel = viewModel()) {
-    val loginUiState by loginViewModel.uiState.collectAsState()
+fun LoginScreen(
+    loginViewModel: LoginViewModel = viewModel(),
+    loginUIConexion: ConexionUIState = ConexionUIState.Success
+) {
 
     Scaffold(topBar = {
         SysVitaTopBar(canNavigateBack = false, title = "Login")
@@ -48,6 +52,14 @@ fun LoginScreen(loginViewModel: LoginViewModel = viewModel()) {
             modifier = Modifier.padding(innerPadding),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            when (loginUIConexion) {
+                is ConexionUIState.Success -> {
+
+                }
+
+                is ConexionUIState.Error -> ErrorScreen(modifier = Modifier.fillMaxSize())
+                is ConexionUIState.Loading -> LoadingScreen(modifier = Modifier.fillMaxSize())
+            }
             val imagePainter = painterResource(id = R.drawable.sysvita_launcher_foreground)
             Image(
                 painter = imagePainter,
@@ -62,7 +74,8 @@ fun LoginScreen(loginViewModel: LoginViewModel = viewModel()) {
                     onValueChange = { loginViewModel.email = it },
                     trailingIcon = { Icon(Icons.Default.Email, contentDescription = "Email") },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-                    keyboardActions = KeyboardActions(onDone = { })
+                    keyboardActions = KeyboardActions(onDone = { }),
+                    singleLine = true
                 )
             }
 
@@ -76,19 +89,17 @@ fun LoginScreen(loginViewModel: LoginViewModel = viewModel()) {
                     trailingIcon = { Icon(Icons.Default.Lock, contentDescription = "Contraseña") },
                     visualTransformation = PasswordVisualTransformation(),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                    keyboardActions = KeyboardActions(onDone = { })
+                    keyboardActions = KeyboardActions(onDone = { }),
+                    singleLine = true
                 )
             }
 
             Button(onClick = {
                 loginViewModel.validarLogin()
-            }) {
-                Text(text = "Iniciar Sesion", fontSize = 11.sp, fontWeight = FontWeight.Bold)
             }
-
+            )
+            { Text(text = "Iniciar Sesion", fontSize = 11.sp, fontWeight = FontWeight.Bold) }
         }
-
-
     }
 }
 
