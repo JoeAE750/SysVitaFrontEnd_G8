@@ -4,11 +4,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import com.fisi.sysvita.ui.components.ConexionUIState
 import com.fisi.sysvita.ui.uistate.LoginUiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import java.io.IOException
 
 class LoginViewModel : ViewModel() {
     // Login UI state
@@ -17,12 +19,20 @@ class LoginViewModel : ViewModel() {
 
     var email: String by mutableStateOf("")
     var contrasena: String by mutableStateOf("")
+
+    var loginUIConexion: ConexionUIState by mutableStateOf(ConexionUIState.Loading)
+        private set
+
     fun validarLogin() {
-        if ("Joel.aguilar1@unmsm.edu.pe" == this.email && "Abretesesamo750" == this.contrasena) {
-            _uiState.update { currentState ->
-                currentState.copy(isSuccesful = true)
+        try {
+            if ("Joel.aguilar1@unmsm.edu.pe" == this.email && "Abretesesamo750" == this.contrasena) {
+                _uiState.update { currentState ->
+                    currentState.copy(isLoginSuccesfull = true)
+                }
             }
+        } catch (e: IOException) {
+            ConexionUIState.Error
         }
     }
-
 }
+
